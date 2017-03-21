@@ -8,22 +8,32 @@ import java.util.concurrent.Semaphore;
  */
 public class Boss extends Thread {
 
-    private String Bossstr;
+    private String bossstr;
     private Semaphore semaphore;
 
     @Override
     public  void run()
     {
-        System.out.println("Введите колличество процоссов");
-        Bossstr = "";
+        semaphore = new Semaphore(2, true);
+        bossstr = "";
         Scanner in = new Scanner(System.in);
+        try {
+            semaphore.acquire();
+
+        System.out.println("Введите колличество процоссов");
+
         int n = in.nextInt();
-        synchronized (Bossstr) {
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n ; i++) {
                 Scout sc = new Scout(in);
-                sc.run(Bossstr);
+                sc.run();
+                bossstr += sc.getString();
             }
-        }
+            System.out.println(bossstr);
+
+        semaphore.release();
+        } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
     }
 }
 
