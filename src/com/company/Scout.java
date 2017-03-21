@@ -8,9 +8,10 @@ import java.util.Scanner;
 public class Scout extends Thread {
 
     private String string;
+    private Scanner scanner;
 
     public Scout(Scanner scanner){
-        string = scanner.nextLine();
+       this.scanner = scanner;
     }
 
 //    public String getString() {
@@ -18,8 +19,14 @@ public class Scout extends Thread {
 //    }
 
 
-    public void run(String sc) {
+    public String getString() {
+        return string;
+    }
+
+    @Override
+    public void run() {
         super.run();
-        sc += string;
+        System.out.println("Вас беспокоит шпиён...");;
+        string = scanner.nextLine();
     }
 }
